@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>คู่มือชาวสวน (Garden Guide)</title>
+  <style>
+    :root{
+      --soil:#5b4636;
+      --leaf:#2c7a3f;
+      --sprout:#7cc576;
+      --panel:#ffffff;
+      --ink:#172417;
+      --muted:#48614b;
+      --ring: rgba(44,122,63,.15);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans Thai", sans-serif;
+      min-height:100vh; display:flex; flex-direction:column; color:var(--ink);
+      background:
+        radial-gradient(1000px 500px at 100% -10%, rgba(124,197,118,.25), transparent 40%),
+        linear-gradient(180deg, #eef9f0 0%, #e8f6ec 40%, #f2efe8 100%);
+      padding-bottom:96px;
+    }
+
+    header{ padding:26px 18px 8px; text-align:center; }
+    .title{ font-size:22px; font-weight:800; }
+    .sub{ margin-top:8px; color:var(--muted); font-size:13px; }
+
+    .wrap{ width:100%; max-width:980px; margin:16px auto; padding:0 16px; }
+
+    .guide{
+      background:var(--panel); border:1px solid rgba(23,36,23,.06);
+      border-radius:18px; padding:18px;
+      box-shadow: 0 20px 50px rgba(44,122,63,.10), 0 1px 0 rgba(255,255,255,.6) inset;
+      position:relative; overflow:hidden;
+      margin-bottom:18px;
+    }
+    .guide::after{
+      content:"";
+      position:absolute; inset:-30% -10% auto auto; height:220px; width:220px;
+      background:
+        radial-gradient(closest-side, rgba(124,197,118,.18), transparent 70%),
+        conic-gradient(from 0deg, rgba(44,122,63,.18), transparent 70%);
+      filter: blur(12px); opacity:.6; pointer-events:none;
+      border-radius:50%;
+    }
+
+    .banner{
+      display:flex; gap:12px; align-items:center;
+      background:linear-gradient(180deg, rgba(124,197,118,.18), rgba(44,122,63,.10));
+      border:1px solid rgba(44,122,63,.35);
+      padding:12px 14px; border-radius:14px; margin-bottom:14px;
+      box-shadow: 0 6px 16px var(--ring);
+      position:relative;
+      z-index:1;
+    }
+    .badge{
+      background:#fff; color:#1a3d22; border:1px solid rgba(44,122,63,.20);
+      padding:6px 10px; border-radius:999px; font-size:12px; font-weight:700;
+      white-space:nowrap;
+    }
+    .hint{ color:#1f3c26; font-size:13px }
+
+    .grid{
+      display:grid; gap:14px;
+      grid-template-columns: repeat(2,1fr);
+      position:relative;
+      z-index:1;
+    }
+    @media (min-width:860px){ .grid{ grid-template-columns: repeat(4,1fr); } }
+
+    .tile{
+      position:relative; display:block; height:170px; border-radius:16px; overflow:hidden;
+      border:1px solid rgba(44,122,63,.22);
+      background:#f6fbf6;
+      box-shadow: 0 10px 26px rgba(44,122,63,.14);
+      transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+      isolation:isolate;
+    }
+    .tile:hover{ transform: translateY(-2px); border-color: rgba(44,122,63,.45); box-shadow: 0 14px 34px rgba(44,122,63,.20); }
+    .tile img{ width:100%; height:100%; object-fit:cover; display:block; filter:contrast(1.04) saturate(1.05); }
+    .chip{
+      position:absolute; left:10px; bottom:10px; z-index:2;
+      display:inline-flex; gap:6px; align-items:center;
+      background: rgba(255,255,255,.92);
+      color:#13371f; border:1px solid rgba(44,122,63,.28);
+      padding:6px 10px; border-radius:999px; font-size:12px; font-weight:700;
+      box-shadow: 0 6px 14px rgba(44,122,63,.16);
+    }
+    .chip::before{ content:"🌱"; }
+
+    /* วิดีโอ */
+    .video-section .banner{
+      background:linear-gradient(180deg, rgba(255,232,191,.45), rgba(250,244,231,.9));
+      border-color:rgba(209,135,34,.5);
+    }
+    .video-section .badge{
+      border-color:rgba(209,135,34,.5);
+      color:#7b4100;
+    }
+    .video-grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+      position:relative;
+      z-index:1;
+    }
+    @media (min-width:720px){
+      .video-grid{
+        grid-template-columns:repeat(3, 1fr);
+      }
+    }
+
+    .video-card{
+      background:#fdfbf6;
+      border-radius:14px;
+      border:1px solid rgba(44,122,63,.20);
+      padding:10px;
+      box-shadow:0 10px 24px rgba(0,0,0,.06);
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .video-title{
+      font-size:14px;
+      font-weight:700;
+      color:#2c3a20;
+    }
+    .video-desc{
+      font-size:12px;
+      color:#607259;
+      line-height:1.5;
+    }
+    .video-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+    }
+    .video-tag{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:11px;
+      color:#7a5a22;
+      background:rgba(255,215,158,.4);
+      padding:4px 8px;
+      border-radius:999px;
+      align-self:flex-start;
+    }
+    .video-tag span{
+      font-size:13px;
+    }
+    .video-select{
+      font-size:11px;
+      border-radius:999px;
+      padding:4px 8px;
+      border:1px solid rgba(209,135,34,.55);
+      background:#fff9ec;
+      color:#7b4100;
+      max-width:190px;
+      cursor:pointer;
+    }
+
+    .video-frame{
+      position:relative;
+      width:100%;
+      border-radius:10px;
+      overflow:hidden;
+      background:#000;
+      aspect-ratio:16/9;
+    }
+    .video-frame iframe{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:0;
+    }
+
+    .video-link{
+      margin-top:6px;
+      font-size:12px;
+      background:#ff4f4f;
+      color:#fff;
+      padding:6px 10px;
+      border-radius:999px;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      align-self:flex-start;
+    }
+    .video-link span{
+      font-size:14px;
+    }
+
+    /* ปุ่มล่าง */
+    .button-container-bottom {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      gap: 10px;
+      background-color: white;
+      padding: 8px 0;
+      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+    .btn-bottom {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      flex: 1;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 0;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: none;
+    }
+    .btn-bottom img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .btn-bottom:hover { transform: scale(1.05); }
+    .btn-bottom:active { transform: scale(0.98); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="title">คู่มือชาวสวน: แนะนำการดูแล</div>
+    <div class="sub">ปุ๋ย • น้ำ • แสง • โรคและแมลง — เคล็ดลับเฉพาะพืช</div>
+  </header>
+
+  <main class="wrap">
+    <!-- การ์ดพืช -->
+    <section class="guide">
+      <div class="banner">
+        <span class="badge">โหมดชาวสวน</span>
+        <div class="hint">แตะการ์ดเพื่อดู “แนวทางการดูแล” ของพืชชนิดนั้น ๆ</div>
+      </div>
+
+      <div class="grid">
+        <a href="Home2.html" class="tile" aria-label="เงาะ">
+          <span class="chip">เงาะ • การดูแล</span>
+          <img src="2000.png" alt="เงาะ">
+        </a>
+        <a href="Home3.html" class="tile" aria-label="มังคุด">
+          <span class="chip">มังคุด • การดูแล</span>
+          <img src="9999.png" alt="มังคุด">
+        </a>
+        <a href="Home4.html" class="tile" aria-label="ทุเรียน">
+          <span class="chip">ทุเรียน • การดูแล</span>
+          <img src="4000.png" alt="ทุเรียน">
+        </a>
+        <a href="#" class="tile" aria-label="กำลังพัฒนา">
+          <span class="chip">กำลังพัฒนา</span>
+          <img src="5000.png" alt="กำลังพัฒนา">
+        </a>
+      </div>
+    </section>
+
+    <!-- วิดีโอสอน -->
+    <section class="guide video-section">
+      <div class="banner">
+        <span class="badge">วิดีโอสอน</span>
+        <div class="hint">เลือกคลิปจากมุมขวาบนของการ์ด • คลิปจะเล่นในกรอบด้านล่างทันที</div>
+      </div>
+
+      <div class="video-grid">
+        <!-- CARD 1: การแปรรูปผลไม้ -->
+        <article class="video-card">
+          <div class="video-top">
+            <div class="video-tag">
+              <span>🎬</span> แปรรูปผลไม้
+            </div>
+            <select class="video-select" data-target="processing">
+              <optgroup label="มังคุด">
+                <option
+                  value="mangosteen1"
+                  data-url="https://www.youtube.com/watch?v=YqCI47Oou8E&t=31s"
+                  data-desc="มังคุดกวน – วิธีทำมังคุดกวนตั้งแต่เตรียมผลจนถึงการเคี่ยวให้นิ่มและเก็บได้นาน">
+                  มังคุด • มังคุดกวน
+                </option>
+                <option
+                  value="mangosteen2"
+                  data-url="https://www.youtube.com/watch?v=igAKwKQM0LQ&t=26s"
+                  data-desc="มังคุดลอยแก้ว – วิธีแปรรูปมังคุดให้เป็นของหวานทานเล่น สดชื่น เก็บในตู้เย็นได้">
+                  มังคุด • มังคุดลอยแก้ว
+                </option>
+              </optgroup>
+
+              <optgroup label="เงาะ">
+                <option
+                  value="rambutan1"
+                  data-url="https://www.youtube.com/watch?v=c8Z_ZmLePyU"
+                  data-desc="เงาะลอยแก้วสอดไส้สับปะรด – การปอก การยัดไส้ และทำน้ำเชื่อม">
+                  เงาะ • เงาะลอยแก้วสอดไส้สับปะรด
+                </option>
+                <option
+                  value="rambutan2"
+                  data-url="https://www.youtube.com/watch?v=tO6NPn5TH0w&t=20s"
+                  data-desc="เงาะกวน – เทคนิคการกวนให้เนียน หอมหวาน และไม่ไหม้ก้นหม้อ">
+                  เงาะ • เงาะกวน
+                </option>
+              </optgroup>
+
+              <optgroup label="ทุเรียน">
+                <option
+                  value="durian1"
+                  data-url="https://www.youtube.com/watch?v=pflOHxtQuOE&t=16s"
+                  data-desc="ทุเรียนกวน – การเตรียมเนื้อทุเรียนและขั้นตอนการกวนให้ได้เนื้อเนียน สีสวย">
+                  ทุเรียน • ทุเรียนกวน
+                </option>
+                <option
+                  value="durian2"
+                  data-url="https://www.youtube.com/watch?v=h8j9bEGm5I8"
+                  data-desc="ทุเรียนทอด – ขั้นตอนการหั่น การทอด และเทคนิคให้กรอบอร่อย">
+                  ทุเรียน • ทุเรียนทอด
+                </option>
+              </optgroup>
+            </select>
+          </div>
+
+          <h3 class="video-title">การแปรรูปผลไม้เพิ่มมูลค่า</h3>
+          <p class="video-desc" id="desc-processing">
+            เลือกคลิปจากมุมขวาบน เพื่อดูตัวอย่างการแปรรูปมังคุด เงาะ และทุเรียน เป็นผลิตภัณฑ์เพิ่มมูลค่า
+          </p>
+          <div class="video-frame">
+            <iframe
+              id="frame-processing"
+              src=""
+              title="วิดีโอการแปรรูปผลไม้"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <a id="link-processing" class="video-link" href="#" target="_blank" rel="noopener">
+            <span>▶</span> เปิดคลิปใน YouTube
+          </a>
+        </article>
+
+        <!-- CARD 2: การปลูกและดูแลต้นไม้ -->
+        <article class="video-card">
+          <div class="video-top">
+            <div class="video-tag">
+              <span>🌱</span> ปลูก & ดูแล
+            </div>
+            <select class="video-select" data-target="plant">
+              <option
+                value="plant-rambutan"
+                data-url="https://www.youtube.com/watch?v=DGyGKU77ojY"
+                data-desc="ปลูกและดูแลต้นเงาะ – การเตรียมหลุมปลูก ระยะปลูก และการตัดแต่งกิ่งเบื้องต้น">
+                วิธีปลูกและดูแลเงาะ
+              </option>
+              <option
+                value="plant-mangosteen"
+                data-url="https://www.youtube.com/watch?v=par799X6o1s"
+                data-desc="ปลูกและดูแลต้นมังคุด – การเลือกกิ่งพันธุ์ การให้น้ำ และการบังแดดช่วงต้นกล้า">
+                วิธีปลูกและดูแลมังคุด
+              </option>
+              <option
+                value="plant-durian"
+                data-url="https://www.youtube.com/watch?v=esFhaChXaiQ"
+                data-desc="ปลูกและดูแลต้นทุเรียน – เทคนิคสำคัญในการตั้งต้น ปรับดิน และดูแลช่วงแรก">
+                วิธีปลูกและดูแลทุเรียน
+              </option>
+              <option
+                value="plant-1-3"
+                data-url="https://www.youtube.com/watch?v=b-uC-rrKY1U"
+                data-desc="การดูแลสวนช่วง 1–3 ปีแรก – เน้นการให้น้ำ ใส่ปุ๋ย และจัดการโรคแมลงให้ต้นแข็งแรง">
+                ดูแลสวนช่วง 1–3 ปีแรก
+              </option>
+            </select>
+          </div>
+
+          <h3 class="video-title">วิธีการปลูกและดูแลต้นไม้</h3>
+          <p class="video-desc" id="desc-plant">
+            เลือกพืชที่ต้องการจากมุมขวาบน เพื่อเรียนรู้วิธีปลูกและดูแลให้รอด ปลอดโรค โตไว
+          </p>
+          <div class="video-frame">
+            <iframe
+              id="frame-plant"
+              src=""
+              title="วิดีโอการปลูกและดูแลต้นไม้"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <a id="link-plant" class="video-link" href="#" target="_blank" rel="noopener">
+            <span>▶</span> เปิดคลิปใน YouTube
+          </a>
+        </article>
+
+        <!-- CARD 3: ปุ๋ย & ยา -->
+        <article class="video-card">
+          <div class="video-top">
+            <div class="video-tag">
+              <span>🧪</span> ปุ๋ย & ยา ปลอดภัย
+            </div>
+            <select class="video-select" data-target="safety">
+              <optgroup label="ปุ๋ยเคมี / การใส่ปุ๋ย">
+                <option
+                  value="fert-15-5-20"
+                  data-url="https://www.youtube.com/watch?v=EatPElSYd0Y"
+                  data-desc="ปุ๋ยสูตรยูเรีย 15-5-20 – บอกอัตราใช้ วิธีหว่าน และช่วงเวลาที่เหมาะสมในการใส่ปุ๋ย">
+                  ปุ๋ย 15-5-20
+                </option>
+                <option
+                  value="fert-15-15-15"
+                  data-url="https://www.youtube.com/watch?v=trx5T8uZHP8"
+                  data-desc="ปุ๋ยสูตรเสมอ 15-15-15 – สูตรพื้นฐานสำหรับบำรุงต้น ใบ และรากไปพร้อมกัน">
+                  ปุ๋ย 15-15-15
+                </option>
+                <option
+                  value="fert-46-0-0"
+                  data-url="https://www.youtube.com/watch?v=7UtzW2Vk8Eo"
+                  data-desc="ปุ๋ยยูเรีย 46-0-0 – เพิ่มไนโตรเจน แต่ต้องใช้ระวังเพื่อลดการไหม้ราก">
+                  ปุ๋ย 46-0-0 (ยูเรีย)
+                </option>
+                <option
+                  value="fert-12-24-12"
+                  data-url="https://www.youtube.com/watch?v=pZoIdbmYyUk"
+                  data-desc="ปุ๋ย 12-24-12 – เหมาะสำหรับกระตุ้นดอกและช่วยให้การติดผลดีขึ้น">
+                  ปุ๋ย 12-24-12
+                </option>
+                <option
+                  value="fert-0-0-60"
+                  data-url="https://www.youtube.com/watch?v=XkQlL-h-bN4"
+                  data-desc="ปุ๋ย 0-0-60 – เพิ่มความหวานและคุณภาพผลผลิต พร้อมเทคนิคการใส่ไม่ให้ดินเค็ม">
+                  ปุ๋ย 0-0-60
+                </option>
+                <option
+                  value="fert-3way"
+                  data-url="https://www.youtube.com/watch?v=sDIaVOc8su4"
+                  data-desc="3 วิธีใส่ปุ๋ยอย่างถูกต้อง – สรุปวิธีใส่ปุ๋ยให้ได้ผลดี ปลอดภัย และประหยัด">
+                  3 วิธีใส่ปุ๋ยอย่างถูกต้อง
+                </option>
+              </optgroup>
+
+              <optgroup label="ยา / สารป้องกันกำจัดโรค">
+                <option
+                  value="med-fungus"
+                  data-url="https://www.youtube.com/watch?v=ZnV_hWSvEN4"
+                  data-desc="วิธีใช้ยาป้องกันกำจัดโรครา – การผสมยา การเลือกหัวฉีด และการป้องกันตัวผู้พ่นยา">
+                  ยาป้องกันกำจัดโรครา
+                </option>
+              </optgroup>
+            </select>
+          </div>
+
+          <h3 class="video-title">วิธีใช้ปุ๋ยและยาอย่างถูกต้อง</h3>
+          <p class="video-desc" id="desc-safety">
+            เลือกสูตรปุ๋ยหรือยาจากมุมขวาบน เพื่อดูอัตราใช้ เทคนิคการใส่ และข้อควรระวังเรื่องความปลอดภัย
+          </p>
+          <div class="video-frame">
+            <iframe
+              id="frame-safety"
+              src=""
+              title="วิดีโอวิธีใช้ปุ๋ยและยา"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <a id="link-safety" class="video-link" href="#" target="_blank" rel="noopener">
+            <span>▶</span> เปิดคลิปใน YouTube
+          </a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- แถบล่าง -->
+  <div class="button-container-bottom">
+    <a href="Home999.html" class="btn-bottom">
+      <img src="60.png" alt="Home">
+    </a>
+    <a href="shop.html" class="btn-bottom">
+      <img src="333222.png" alt="ตลาด">
+    </a>
+    <a href="Home.html" class="btn-bottom">
+      <img src="61.png" alt="AI">
+    </a>
+    <a href="Home555.html" class="btn-bottom">
+      <img src="62.png" alt="วิธีปลูก">
+    </a>
+    <a href="menu.html" class="btn-bottom">
+      <img src="1000.png" alt="เมนู">
+    </a>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // แปลง watch URL -> embed URL (ใช้ youtube-nocookie เพื่อลดการบล็อก/คุกกี้)
+      function buildEmbedUrl(url) {
+        try {
+          var u = new URL(url);
+          var videoId = u.searchParams.get('v');
+          var t = u.searchParams.get('t');
+          var startSec = null;
+
+          if (t) {
+            var m = t.match(/(\\d+)/);
+            if (m) startSec = parseInt(m[1], 10);
+          }
+
+          if (videoId) {
+            return "https://www.youtube-nocookie.com/embed/" + videoId +
+                   (startSec ? ("?start=" + startSec) : "");
+          }
+
+          // ถ้าเป็น embed อยู่แล้ว
+          if (url.includes("/embed/")) {
+            return url;
+          }
+
+          return url;
+        } catch (e) {
+          return url;
+        }
+      }
+
+      function initVideo(cardKey) {
+        const select = document.querySelector('.video-select[data-target="' + cardKey + '"]');
+        const frame  = document.getElementById('frame-' + cardKey);
+        const link   = document.getElementById('link-' + cardKey);
+        const descEl = document.getElementById('desc-' + cardKey);
+        if (!select || !frame || !link || !descEl) return;
+
+        function applySelection() {
+          const opt = select.selectedOptions[0];
+          if (!opt) return;
+
+          const url  = opt.dataset.url;
+          const desc = opt.dataset.desc;
+
+          if (url) {
+            const embedUrl = buildEmbedUrl(url);
+            frame.src = embedUrl;      // เล่นในเว็บ
+            link.href = url;           // ปุ่มเปิดใน YouTube แท็บใหม่
+            link.style.pointerEvents = 'auto';
+            link.style.opacity = '1';
+          } else {
+            frame.removeAttribute('src');
+            link.removeAttribute('href');
+            link.style.pointerEvents = 'none';
+            link.style.opacity = '0.6';
+          }
+
+          if (desc) {
+            descEl.textContent = desc;
+          }
+        }
+
+        select.addEventListener('change', applySelection);
+        applySelection(); // ตั้งค่าตอนเริ่มต้น
+      }
+
+      ['processing', 'plant', 'safety'].forEach(initVideo);
+    });
+  </script>
+</body>
+</html>

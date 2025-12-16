@@ -234,45 +234,30 @@
       msgErr.style.display = "none";
     }
 
-/* ========== Google Login (Updated for Web View) ========== */
-    $("#googleBtn").addEventListener("click", async () => {
-      // ตรวจสอบเบื้องต้นว่ารันบน Web View หรือไม่
-      const isWebView = /wv|Thunkable/i.test(navigator.userAgent);
-      
-      if (isWebView) {
-        // หากอยู่ในแอป ให้ข้ามไปใช้ Redirect ทันทีเพื่อลดข้อผิดพลาด
-        try {
-          await signInWithRedirect(auth, provider);
-        } catch (e) {
-          showErr(e);
-        }
-      } else {
-        // หากเปิดผ่าน Browser ปกติ ให้ลอง Popup ก่อน
-        try {
-          await signInWithPopup(auth, provider);
-        } catch (e) {
-          console.log("Popup blocked or failed, trying redirect...");
-          try {
-            await signInWithRedirect(auth, provider);
-          } catch (e2) {
-            showErr(e2);
-          }
-        }
-      }
-    });
+/* === ปรับปรุงส่วน Google Login สำหรับ Web View === */
+$("#googleBtn").addEventListener("click", async () => {
+  try {
+    // สำหรับ Web View ในแอป แนะนำให้ใช้ Redirect เป็นหลัก
+    // เพราะ Popup มักจะถูกบล็อกหรือเปิดหน้าต่างใหม่ไม่ได้
+    await signInWithRedirect(auth, provider);
+  } catch (e) {
+    showErr(e);
+  }
+});
 
-    // สำคัญมาก: ต้องดึงผลลัพธ์จาก Redirect เสมอเมื่อหน้าเว็บโหลดใหม่
-    getRedirectResult(auth)
-      .then((result) => {
-        if (result?.user) {
-          goHome(result.user);
-        }
-      })
-      .catch((error) => {
-        if (error.code !== "auth/invalid-pending-token") {
-          showErr(error);
-        }
-      });
+// ตรวจสอบผลจากการ Redirect (ต้องมีส่วนนี้เพื่อให้ล็อกอินสำเร็จหลังจากหน้าเว็บ Refresh)
+getRedirectResult(auth)
+  .then((result) => {
+    if (result?.user) {
+      goHome(result.user);
+    }
+  })
+  .catch((e) => {
+    // ป้องกัน Error บรรทัดนี้แสดงผลซ้ำซ้อนถ้าไม่มีการกระทำใดๆ
+    if (e.code !== "auth/invalid-pending-token") {
+      showErr(e);
+    }
+  });
 
     getRedirectResult(auth).catch(() => {});
 

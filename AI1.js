@@ -301,7 +301,7 @@ causeButton.addEventListener('click', () => {
 
     if (resultText.includes('เป็นโรคจุดขาว')) {
         url = 'bad2.html';
-    } else if (resultText.includes('จุดสาหร่าย')) {
+    } else if (resultText.includes('สนิม')) {
         url = 'bad3.html';
     } else if (resultText.includes('ใบไหม้')) {
         url = 'bad.html';

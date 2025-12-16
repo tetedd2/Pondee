@@ -234,32 +234,27 @@
       msgErr.style.display = "none";
     }
 
-/* === ปรับปรุงส่วน Google Login สำหรับ Web View === */
 $("#googleBtn").addEventListener("click", async () => {
   try {
-    // สำหรับ Web View ในแอป แนะนำให้ใช้ Redirect เป็นหลัก
-    // เพราะ Popup มักจะถูกบล็อกหรือเปิดหน้าต่างใหม่ไม่ได้
     await signInWithRedirect(auth, provider);
   } catch (e) {
     showErr(e);
   }
 });
-
-// ตรวจสอบผลจากการ Redirect (ต้องมีส่วนนี้เพื่อให้ล็อกอินสำเร็จหลังจากหน้าเว็บ Refresh)
 getRedirectResult(auth)
   .then((result) => {
-    if (result?.user) {
+    if (result && result.user) {
       goHome(result.user);
     }
   })
   .catch((e) => {
-    // ป้องกัน Error บรรทัดนี้แสดงผลซ้ำซ้อนถ้าไม่มีการกระทำใดๆ
     if (e.code !== "auth/invalid-pending-token") {
       showErr(e);
     }
   });
-
-    getRedirectResult(auth).catch(() => {});
+onAuthStateChanged(auth, (user) => {
+  if (user) goHome(user);
+});
 
     /* ========== Email Login ========== */
     $("#emailForm").addEventListener("submit", async (e)=>{

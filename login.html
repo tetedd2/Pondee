@@ -163,7 +163,7 @@
     }
 
     function showErr(e){
-      msgErr.textContent = e?.message || "พัง ไม่รู้พังไร";
+      msgErr.textContent = e?.message || "พังอ่ะ ไม่รู้ทำไงดี";
       msgErr.style.display = "block";
       msgOk.style.display = "none";
       console.error(e);
@@ -194,7 +194,7 @@
       try{
         const email = $("#email").value.trim();
         const pass  = $("#password").value.trim();
-        if(!email || !pass) throw new Error("กรอกเมลกับรหัสก่อนสิวะ");
+        if(!email || !pass) throw new Error("กรอกเมลกับรหัสผ่านก่อนนะค้าบ");
 
         const cred = await createUserWithEmailAndPassword(auth, email, pass);
         await updateProfile(cred.user,{
@@ -215,3 +215,4 @@
   </script>
 </body>
 </html>
+

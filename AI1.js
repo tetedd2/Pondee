@@ -375,7 +375,7 @@ function handleImageUpload(file) {
 
             selectedImage = image; // กำหนดภาพที่เลือกไว้เพื่อ predict
             confirmButton.disabled = false; // เปิดปุ่มยืนยัน
-            showMessage('พร้อมจำแนก กด "ยืนยัน" เพื่อเริ่ม', 'info');
+            showMessage('พร้อมจำแนก กด "เลือกรูปภาพ" เพื่อเริ่ม', 'info');
         };
         image.src = e.target.result;
     };
@@ -494,6 +494,7 @@ function hideInteractionButtons() {
 
 
 // เรียกซ่อนทั้งชุดเมื่อโหลดหน้า (ถ้าต้องการ) หรือก่อนเริ่มจำแนก
+
 
 
 

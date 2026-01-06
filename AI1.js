@@ -461,7 +461,7 @@ function handleImageUpload(file) {
             webcamDiv.appendChild(image);
             selectedImage = image;
             confirmButton.disabled = false;
-            showMessage('พร้อมจำแนก กด "ยืนยัน" เพื่อเริ่ม', 'info');
+            showMessage('พร้อมจำแนก กด "เลือกรูปภาพ" เพื่อเริ่ม', 'info');
             // ======= ซ่อนปุ่มหลังเลือกรูป =======
             toggleVisibility("selectImage", false);
             toggleVisibility("capture-button", false);
@@ -494,6 +494,7 @@ function hideInteractionButtons() {
 
 
 // เรียกซ่อนทั้งชุดเมื่อโหลดหน้า (ถ้าต้องการ) หรือก่อนเริ่มจำแนก
+
 
 
 
